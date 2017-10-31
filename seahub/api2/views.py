@@ -1410,7 +1410,7 @@ class UpdateLinkView(APIView):
             return api_error(HTTP_443_ABOVE_QUOTA, 'Above quota')
 
         token = seafile_api.get_fileserver_access_token(repo_id,
-                'dummy', 'update', request.user.username)
+                'dummy', 'update', request.user.username, use_onetime=False)
 
         if not token:
             error_msg = 'Internal Server Error'
@@ -2127,7 +2127,7 @@ class OwaFileView(APIView):
 
         # get wopi dict
         username = request.user.username
-        wopi_dict = get_wopi_dict(username, repo_id, path, action)
+        wopi_dict = get_wopi_dict(username, repo_id, path, action, request.LANGUAGE_CODE)
 
         # send stats message
         send_file_access_msg(request, repo, path, 'api')
